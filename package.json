@@ -13,15 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nick-invision/retry.git"
+    "url": "git+https://github.com/step-security/retry.git"
   },
   "keywords": [],
-  "author": "Nick Fields",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/nick-invision/retry/issues"
+    "url": "https://github.com/step-security/retry/issues"
   },
-  "homepage": "https://github.com/nick-invision/retry#readme",
+  "homepage": "https://github.com/step-security/retry#readme",
   "dependencies": {
     "milliseconds": "^1.0.3",
     "tree-kill": "^1.2.2"

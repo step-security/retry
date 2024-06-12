@@ -3,10 +3,10 @@ on:
   # only on PRs into and merge to default branch
   pull_request:
     branches:
-      - master
+      - main
   push:
     branches:
-      - master
+      - main
 
 jobs:
   ci_unit:
@@ -562,29 +562,3 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "If this is hit, all tests successfully passed"
-
-  # runs on merge to default only
-  cd:
-    name: Publish Action
-    needs: [ci_all_tests_passed]
-    if: github.ref == 'refs/heads/master'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - name: Install dependencies
-        run: npm ci
-      - name: Release
-        id: semantic
-        uses: cycjimmy/semantic-release-action@v4
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Tag
-        run: git tag -f v${MAJOR_VERSION} && git push -f origin v${MAJOR_VERSION}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          MAJOR_VERSION: ${{ steps.semantic.outputs.new_release_major_version }}
