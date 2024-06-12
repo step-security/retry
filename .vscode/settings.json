@@ -1,0 +1,7 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "prettier.configPath": "./.config/.prettierrc.yml",
+  "prettier.ignorePath": "./.config/.prettierignore",
+  "typescript.tsdk": "node_modules/typescript/lib"
+}
