@@ -2,7 +2,6 @@
 
 Retries an Action step on failure or timeout. This is currently intended to replace the `run` step for moody commands.
 
-
 ---
 
 ## Inputs
@@ -205,7 +204,7 @@ with:
 
 ```yaml
 name: Multi-line multi-command Test
-uses: nick-fields/retry@v3
+uses: step-security/retry@v3
 with:
   timeout_minutes: 1
   max_attempts: 2
@@ -218,7 +217,7 @@ with:
 
 ```yaml
 name: Multi-line single-command Test
-uses: nick-fields/retry@v3
+uses: step-security/retry@v3
 with:
   timeout_minutes: 1
   max_attempts: 2
