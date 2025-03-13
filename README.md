@@ -205,7 +205,7 @@ with:
 
 ```yaml
 name: Multi-line multi-command Test
-uses: ./
+uses: nick-fields/retry@v3
 with:
   timeout_minutes: 1
   max_attempts: 2
@@ -218,7 +218,7 @@ with:
 
 ```yaml
 name: Multi-line single-command Test
-uses: ./
+uses: nick-fields/retry@v3
 with:
   timeout_minutes: 1
   max_attempts: 2
