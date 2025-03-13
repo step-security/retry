@@ -152,6 +152,7 @@ async function runAction(inputs: Inputs) {
   await validateInputs(inputs);
 
   for (let attempt = 1; attempt <= inputs.max_attempts; attempt++) {
+    info(`::group::Attempt ${attempt}`);
     try {
       // just keep overwriting attempts output
       setOutput(OUTPUT_TOTAL_ATTEMPTS_KEY, attempt);
@@ -178,6 +179,8 @@ async function runAction(inputs: Inputs) {
           info(`Attempt ${attempt} failed. Reason: ${error.message}`);
         }
       }
+    } finally {
+      info(`::endgroup::`);
     }
   }
 }
