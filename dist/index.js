@@ -28822,17 +28822,18 @@ function runAction(inputs) {
                     attempt = 1;
                     _a.label = 3;
                 case 3:
-                    if (!(attempt <= inputs.max_attempts)) return [3 /*break*/, 14];
+                    if (!(attempt <= inputs.max_attempts)) return [3 /*break*/, 15];
+                    (0, core_1.info)("::group::Attempt ".concat(attempt));
                     _a.label = 4;
                 case 4:
-                    _a.trys.push([4, 6, , 13]);
+                    _a.trys.push([4, 6, 13, 14]);
                     // just keep overwriting attempts output
                     (0, core_1.setOutput)(OUTPUT_TOTAL_ATTEMPTS_KEY, attempt);
                     return [4 /*yield*/, runCmd(attempt, inputs)];
                 case 5:
                     _a.sent();
                     (0, core_1.info)("Command completed after ".concat(attempt, " attempt(s)."));
-                    return [3 /*break*/, 14];
+                    return [3 /*break*/, 15];
                 case 6:
                     error_3 = _a.sent();
                     if (!(attempt === inputs.max_attempts)) return [3 /*break*/, 7];
@@ -28858,11 +28859,14 @@ function runAction(inputs) {
                         (0, core_1.info)("Attempt ".concat(attempt, " failed. Reason: ").concat(error_3.message));
                     }
                     _a.label = 12;
-                case 12: return [3 /*break*/, 13];
+                case 12: return [3 /*break*/, 14];
                 case 13:
+                    (0, core_1.info)("::endgroup::");
+                    return [7 /*endfinally*/];
+                case 14:
                     attempt++;
                     return [3 /*break*/, 3];
-                case 14: return [2 /*return*/];
+                case 15: return [2 /*return*/];
             }
         });
     });
