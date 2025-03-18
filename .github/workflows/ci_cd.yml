@@ -28,7 +28,7 @@ jobs:
         run: npm ci
       - name: Run Unit Tests
         run: npm test
-      - uses: codecov/codecov-action@ab904c41d6ece82784817410c45d8b8c02684457 # v3.1.6
+      - uses: codecov/codecov-action@v5
         with:
           directory: ./coverage/
           verbose: true
@@ -58,7 +58,7 @@ jobs:
           timeout_minutes: 1
           max_attempts: 2
           command: npm -v
-      - uses: nick-invision/assert-action@1e012cc9f1bf73ccc96470b56c8887478c647e8a # v1.3.1
+      - uses: nick-fields/assert-action@v2
         with:
           expected: true
           actual: ${{ steps.happy_path.outputs.total_attempts == '1' && steps.happy_path.outputs.exit_code == '0' }}
@@ -77,11 +77,11 @@ jobs:
           timeout_minutes: 1
           max_attempts: 2
           command: node -e "process.exit(1)"
-      - uses: nick-invision/assert-action@1e012cc9f1bf73ccc96470b56c8887478c647e8a # v1.3.1
+      - uses: nick-fields/assert-action@v2
         with:
           expected: 2
           actual: ${{ steps.sad_path_error.outputs.total_attempts }}
-      - uses: nick-invision/assert-action@1e012cc9f1bf73ccc96470b56c8887478c647e8a # v1.3.1
+      - uses: nick-fields/assert-action@v2
         with:
           expected: failure
           actual: ${{ steps.sad_path_error.outcome }}
@@ -95,15 +95,15 @@ jobs:
           max_attempts: 3
           retry_on: timeout
           command: node -e "process.exit(2)"
-      - uses: nick-invision/assert-action@1e012cc9f1bf73ccc96470b56c8887478c647e8a # v1.3.1
+      - uses: nick-fields/assert-action@v2
         with:
           expected: 1
           actual: ${{ steps.retry_on_timeout_fail.outputs.total_attempts }}
-      - uses: nick-invision/assert-action@1e012cc9f1bf73ccc96470b56c8887478c647e8a # v1.3.1
+      - uses: nick-fields/assert-action@v2
         with:
           expected: failure
           actual: ${{ steps.retry_on_timeout_fail.outcome }}
-      - uses: nick-invision/assert-action@1e012cc9f1bf73ccc96470b56c8887478c647e8a # v1.3.1
+      - uses: nick-fields/assert-action@v2
         with:
           expected: 2
           actual: ${{ steps.retry_on_timeout_fail.outputs.exit_code }}
@@ -117,15 +117,15 @@ jobs:
           max_attempts: 2
           retry_on: error
           command: node -e "process.exit(2)"
-      - uses: nick-invision/assert-action@1e012cc9f1bf73ccc96470b56c8887478c647e8a # v1.3.1
+      - uses: nick-fields/assert-action@v2
         with:
           expected: 2
           actual: ${{ steps.retry_on_error.outputs.total_attempts }}
-      - uses: nick-invision/assert-action@1e012cc9f1bf73ccc96470b56c8887478c647e8a # v1.3.1
+      - uses: nick-fields/assert-action@v2
         with:
           expected: failure
           actual: ${{ steps.retry_on_error.outcome }}
-      - uses: nick-invision/assert-action@1e012cc9f1bf73ccc96470b56c8887478c647e8a # v1.3.1
+      - uses: nick-fields/assert-action@v2
         with:
           expected: 2
           actual: ${{ steps.retry_on_error.outputs.exit_code }}
@@ -139,11 +139,11 @@ jobs:
           max_attempts: 2
           shell: cmd
           command: 'dir'
-      - uses: nick-invision/assert-action@1e012cc9f1bf73ccc96470b56c8887478c647e8a # v1.3.1
+      - uses: nick-fields/assert-action@v2
         with:
           expected: 2
           actual: ${{ steps.wrong_shell.outputs.total_attempts }}
-      - uses: nick-invision/assert-action@1e012cc9f1bf73ccc96470b56c8887478c647e8a # v1.3.1
+      - uses: nick-fields/assert-action@v2
         with:
           expected: failure
           actual: ${{ steps.wrong_shell.outcome }}
@@ -200,12 +200,12 @@ jobs:
           timeout_minutes: 5
           command: 'make -C ./test-data/large-output bytes-102400'
       - name: Assert test had expected result
-        uses: nick-invision/assert-action@1e012cc9f1bf73ccc96470b56c8887478c647e8a # v1.3.1
+        uses: nick-fields/assert-action@v2
         with:
           expected: failure
           actual: ${{ steps.large-output.outcome }}
       - name: Assert exit code is expected
-        uses: nick-invision/assert-action@1e012cc9f1bf73ccc96470b56c8887478c647e8a # v1.3.1
+        uses: nick-fields/assert-action@v2
         with:
           expected: 2
           actual: ${{ steps.large-output.outputs.exit_code }}
@@ -236,11 +236,11 @@ jobs:
           retry_on_exit_code: 2
           max_attempts: 3
           command: node -e "process.exit(2)"
-      - uses: nick-invision/assert-action@1e012cc9f1bf73ccc96470b56c8887478c647e8a # v1.3.1
+      - uses: nick-fields/assert-action@v2
         with:
           expected: failure
           actual: ${{ steps.retry_on_exit_code_expected.outcome }}
-      - uses: nick-invision/assert-action@1e012cc9f1bf73ccc96470b56c8887478c647e8a # v1.3.1
+      - uses: nick-fields/assert-action@v2
         with:
           expected: 3
           actual: ${{ steps.retry_on_exit_code_expected.outputs.total_attempts }}
@@ -254,11 +254,11 @@ jobs:
           retry_on_exit_code: 2
           max_attempts: 3
           command: node -e "process.exit(1)"
-      - uses: nick-invision/assert-action@1e012cc9f1bf73ccc96470b56c8887478c647e8a # v1.3.1
+      - uses: nick-fields/assert-action@v2
         with:
           expected: failure
           actual: ${{ steps.retry_on_exit_code_unexpected.outcome }}
-      - uses: nick-invision/assert-action@1e012cc9f1bf73ccc96470b56c8887478c647e8a # v1.3.1
+      - uses: nick-fields/assert-action@v2
         with:
           expected: 1
           actual: ${{ steps.retry_on_exit_code_unexpected.outputs.total_attempts }}
@@ -295,22 +295,22 @@ jobs:
           timeout_minutes: 1
           continue_on_error: true
       - name: Verify continue_on_error returns correct exit code on success
-        uses: nick-invision/assert-action@1e012cc9f1bf73ccc96470b56c8887478c647e8a # v1.3.1
+        uses: nick-fields/assert-action@v2
         with:
           expected: 0
           actual: ${{ steps.happy_path_continue_on_error.outputs.exit_code }}
       - name: Verify continue_on_error exits with correct outcome on success
-        uses: nick-invision/assert-action@1e012cc9f1bf73ccc96470b56c8887478c647e8a # v1.3.1
+        uses: nick-fields/assert-action@v2
         with:
           expected: success
           actual: ${{ steps.happy_path_continue_on_error.outcome }}
       - name: Verify continue_on_error returns correct exit code on error
-        uses: nick-invision/assert-action@1e012cc9f1bf73ccc96470b56c8887478c647e8a # v1.3.1
+        uses: nick-fields/assert-action@v2
         with:
           expected: 33
           actual: ${{ steps.sad_path_continue_on_error.outputs.exit_code }}
       - name: Verify continue_on_error exits with successful outcome when an error occurs
-        uses: nick-invision/assert-action@1e012cc9f1bf73ccc96470b56c8887478c647e8a # v1.3.1
+        uses: nick-fields/assert-action@v2
         with:
           expected: success
           actual: ${{ steps.sad_path_continue_on_error.outcome }}
@@ -342,15 +342,15 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 15
           command: npm install this-isnt-a-real-package-name-zzz
-      - uses: nick-invision/assert-action@1e012cc9f1bf73ccc96470b56c8887478c647e8a # v1.3.1
+      - uses: nick-fields/assert-action@v2
         with:
           expected: 3
           actual: ${{ steps.sad_path_wait_sec.outputs.total_attempts }}
-      - uses: nick-invision/assert-action@1e012cc9f1bf73ccc96470b56c8887478c647e8a # v1.3.1
+      - uses: nick-fields/assert-action@v2
         with:
           expected: failure
           actual: ${{ steps.sad_path_wait_sec.outcome }}
-      - uses: nick-invision/assert-action@1e012cc9f1bf73ccc96470b56c8887478c647e8a # v1.3.1
+      - uses: nick-fields/assert-action@v2
         with:
           expected: 'Final attempt failed'
           actual: ${{ steps.sad_path_wait_sec.outputs.exit_error }}
@@ -430,11 +430,11 @@ jobs:
           timeout_seconds: 15
           max_attempts: 2
           command: node -e "(async()=>await new Promise(r => setTimeout(r, 120000)))()"
-      - uses: nick-invision/assert-action@1e012cc9f1bf73ccc96470b56c8887478c647e8a # v1.3.1
+      - uses: nick-fields/assert-action@v2
         with:
           expected: 2
           actual: ${{ steps.sad_path_timeout.outputs.total_attempts }}
-      - uses: nick-invision/assert-action@1e012cc9f1bf73ccc96470b56c8887478c647e8a # v1.3.1
+      - uses: nick-fields/assert-action@v2
         with:
           expected: failure
           actual: ${{ steps.sad_path_timeout.outcome }}
@@ -466,11 +466,11 @@ jobs:
           max_attempts: 2
           retry_on: timeout
           command: node -e "(async()=>await new Promise(r => setTimeout(r, 120000)))()"
-      - uses: nick-invision/assert-action@1e012cc9f1bf73ccc96470b56c8887478c647e8a # v1.3.1
+      - uses: nick-fields/assert-action@v2
         with:
           expected: 2
           actual: ${{ steps.retry_on_timeout.outputs.total_attempts }}
-      - uses: nick-invision/assert-action@1e012cc9f1bf73ccc96470b56c8887478c647e8a # v1.3.1
+      - uses: nick-fields/assert-action@v2
         with:
           expected: failure
           actual: ${{ steps.retry_on_timeout.outcome }}
@@ -502,15 +502,15 @@ jobs:
           max_attempts: 2
           retry_on: error
           command: node -e "(async()=>await new Promise(r => setTimeout(r, 120000)))()"
-      - uses: nick-invision/assert-action@1e012cc9f1bf73ccc96470b56c8887478c647e8a # v1.3.1
+      - uses: nick-fields/assert-action@v2
         with:
           expected: 1
           actual: ${{ steps.retry_on_error_fail.outputs.total_attempts }}
-      - uses: nick-invision/assert-action@1e012cc9f1bf73ccc96470b56c8887478c647e8a # v1.3.1
+      - uses: nick-fields/assert-action@v2
         with:
           expected: failure
           actual: ${{ steps.retry_on_error_fail.outcome }}
-      - uses: nick-invision/assert-action@1e012cc9f1bf73ccc96470b56c8887478c647e8a # v1.3.1
+      - uses: nick-fields/assert-action@v2
         with:
           expected: 1
           actual: ${{ steps.retry_on_error_fail.outputs.exit_code }}
@@ -541,11 +541,11 @@ jobs:
           timeout_minutes: 1
           max_attempts: 2
           command: node -e "(async()=>await new Promise(r => setTimeout(r, 120000)))()"
-      - uses: nick-invision/assert-action@1e012cc9f1bf73ccc96470b56c8887478c647e8a # v1.3.1
+      - uses: nick-fields/assert-action@v2
         with:
           expected: 2
           actual: ${{ steps.sad_path_timeout_minutes.outputs.total_attempts }}
-      - uses: nick-invision/assert-action@1e012cc9f1bf73ccc96470b56c8887478c647e8a # v1.3.1
+      - uses: nick-fields/assert-action@v2
         with:
           expected: failure
           actual: ${{ steps.sad_path_timeout_minutes.outcome }}
