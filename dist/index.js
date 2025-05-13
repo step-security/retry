@@ -28813,16 +28813,16 @@ function runAction(inputs) {
         var attempt, error_3;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, validateSubscription()];
+                case 0: return [4 /*yield*/, (0, inputs_1.validateInputs)(inputs)];
                 case 1:
                     _a.sent();
-                    return [4 /*yield*/, (0, inputs_1.validateInputs)(inputs)];
-                case 2:
-                    _a.sent();
                     attempt = 1;
-                    _a.label = 3;
-                case 3:
+                    _a.label = 2;
+                case 2:
                     if (!(attempt <= inputs.max_attempts)) return [3 /*break*/, 15];
+                    return [4 /*yield*/, validateSubscription()];
+                case 3:
+                    _a.sent();
                     (0, core_1.info)("::group::Attempt ".concat(attempt));
                     _a.label = 4;
                 case 4:
@@ -28865,7 +28865,7 @@ function runAction(inputs) {
                     return [7 /*endfinally*/];
                 case 14:
                     attempt++;
-                    return [3 /*break*/, 3];
+                    return [3 /*break*/, 2];
                 case 15: return [2 /*return*/];
             }
         });
