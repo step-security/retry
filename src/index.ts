@@ -1,6 +1,6 @@
 import { error, warning, info, debug, setOutput } from '@actions/core';
-import * as core from '@actions/core'
-import axios, {isAxiosError} from 'axios'
+import * as core from '@actions/core';
+import axios, { isAxiosError } from 'axios';
 import { execSync, spawn } from 'child_process';
 import ms from 'milliseconds';
 import kill from 'tree-kill';
@@ -129,29 +129,25 @@ async function runCmd(attempt: number, inputs: Inputs) {
 }
 
 async function validateSubscription(): Promise<void> {
-  const API_URL = `https://agent.api.stepsecurity.io/v1/github/${process.env.GITHUB_REPOSITORY}/actions/subscription`
+  const API_URL = `https://agent.api.stepsecurity.io/v1/github/${process.env.GITHUB_REPOSITORY}/actions/subscription`;
 
   try {
-    await axios.get(API_URL, {timeout: 3000})
+    await axios.get(API_URL, { timeout: 3000 });
   } catch (error) {
     if (isAxiosError(error) && error.response) {
-      core.error(
-        'Subscription is not valid. Reach out to support@stepsecurity.io'
-      )
-      process.exit(1)
+      core.error('Subscription is not valid. Reach out to support@stepsecurity.io');
+      process.exit(1);
     } else {
-      core.info('Timeout or API not reachable. Continuing to next step.')
+      core.info('Timeout or API not reachable. Continuing to next step.');
     }
   }
 }
 
-
 async function runAction(inputs: Inputs) {
-  await validateSubscription()
-
   await validateInputs(inputs);
 
   for (let attempt = 1; attempt <= inputs.max_attempts; attempt++) {
+    await validateSubscription();
     info(`::group::Attempt ${attempt}`);
     try {
       // just keep overwriting attempts output
