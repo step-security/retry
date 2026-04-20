@@ -11,7 +11,10 @@ on:
         description: "Run mode: cherry-pick or verify"
         required: false
         default: "cherry-pick"
-        
+
+  pull_request:
+    types: [opened, synchronize, labeled]
+    
 permissions:
   contents: write
   pull-requests: write
