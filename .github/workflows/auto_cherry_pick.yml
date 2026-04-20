@@ -7,7 +7,11 @@ on:
         description: 'Base branch to create the PR against'
         required: true
         default: 'main'
-
+      mode:
+        description: "Run mode: cherry-pick or verify"
+        required: false
+        default: "cherry-pick"
+        
 permissions:
   contents: write
   pull-requests: write
@@ -16,8 +20,10 @@ permissions:
 
 jobs:
   cherry-pick:
+    if: github.event_name == 'workflow_dispatch' || contains(fromJson(toJson(github.event.pull_request.labels)).*.name, 'review-required')
     uses: step-security/reusable-workflows/.github/workflows/auto_cherry_pick.yaml@v1
     with:
       original-owner: 'nick-fields'
       repo-name: 'retry'
       base_branch: ${{ inputs.base_branch }}
+      mode: ${{ github.event_name == 'pull_request' && 'verify' || inputs.mode }}
