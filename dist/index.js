@@ -35984,6 +35984,7 @@ var core_1 = __nccwpck_require__(2186);
 var core = __importStar(__nccwpck_require__(2186));
 var axios_1 = __importStar(__nccwpck_require__(8757));
 var child_process_1 = __nccwpck_require__(2081);
+var fs = __importStar(__nccwpck_require__(7147));
 var milliseconds_1 = __importDefault(__nccwpck_require__(2318));
 var tree_kill_1 = __importDefault(__nccwpck_require__(9335));
 var inputs_1 = __nccwpck_require__(7063);
@@ -36120,29 +36121,48 @@ function runCmd(attempt, inputs) {
     });
 }
 function validateSubscription() {
-    var _a;
+    var _a, _b;
     return __awaiter(this, void 0, void 0, function () {
-        var API_URL, error_2;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
+        var repoPrivate, eventPath, payload, upstream, action, docsUrl, serverUrl, body, error_2;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
                 case 0:
-                    API_URL = "https://agent.api.stepsecurity.io/v1/github/".concat(process.env.GITHUB_REPOSITORY, "/actions/subscription");
-                    _b.label = 1;
+                    eventPath = process.env.GITHUB_EVENT_PATH;
+                    if (eventPath && fs.existsSync(eventPath)) {
+                        payload = JSON.parse(fs.readFileSync(eventPath, 'utf8'));
+                        repoPrivate = (_a = payload === null || payload === void 0 ? void 0 : payload.repository) === null || _a === void 0 ? void 0 : _a.private;
+                    }
+                    upstream = 'nick-fields/retry';
+                    action = process.env.GITHUB_ACTION_REPOSITORY;
+                    docsUrl = 'https://docs.stepsecurity.io/actions/stepsecurity-maintained-actions';
+                    core.info('');
+                    core.info('\u001b[1;36mStepSecurity Maintained Action\u001b[0m');
+                    core.info("Secure drop-in replacement for ".concat(upstream));
+                    if (repoPrivate === false)
+                        core.info('\u001b[32m\u2713 Free for public repositories\u001b[0m');
+                    core.info("\u001B[36mLearn more:\u001B[0m ".concat(docsUrl));
+                    core.info('');
+                    if (repoPrivate === false)
+                        return [2 /*return*/];
+                    serverUrl = process.env.GITHUB_SERVER_URL || 'https://github.com';
+                    body = { action: action || '' };
+                    if (serverUrl !== 'https://github.com')
+                        body.ghes_server = serverUrl;
+                    _c.label = 1;
                 case 1:
-                    _b.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, axios_1.default.get(API_URL, { timeout: 3000 })];
+                    _c.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, axios_1.default.post("https://agent.api.stepsecurity.io/v1/github/".concat(process.env.GITHUB_REPOSITORY, "/actions/maintained-actions-subscription"), body, { timeout: 3000 })];
                 case 2:
-                    _b.sent();
+                    _c.sent();
                     return [3 /*break*/, 4];
                 case 3:
-                    error_2 = _b.sent();
-                    if ((0, axios_1.isAxiosError)(error_2) && ((_a = error_2.response) === null || _a === void 0 ? void 0 : _a.status) === 403) {
-                        core.error('Subscription is not valid. Reach out to support@stepsecurity.io');
+                    error_2 = _c.sent();
+                    if ((0, axios_1.isAxiosError)(error_2) && ((_b = error_2.response) === null || _b === void 0 ? void 0 : _b.status) === 403) {
+                        core.error('\u001b[1;31mThis action requires a StepSecurity subscription for private repositories.\u001b[0m');
+                        core.error("\u001B[31mLearn how to enable a subscription: ".concat(docsUrl, "\u001B[0m"));
                         process.exit(1);
                     }
-                    else {
-                        core.info('Timeout or API not reachable. Continuing to next step.');
-                    }
+                    core.info('Timeout or API not reachable. Continuing to next step.');
                     return [3 /*break*/, 4];
                 case 4: return [2 /*return*/];
             }
